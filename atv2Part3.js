@@ -9,15 +9,20 @@
        
         body{
             text-align: center;
+            
         }
 
         #exibirPalavra{
-            margin: 40px;
+            margin-bottom: 40px;
             font-size: 70px;
         }
         
         #reiniciar{
             margin: 20px;
+        }
+
+        #imagem{
+            z-index: auto;
         }
         
     </style>
@@ -27,54 +32,96 @@
 <body>
 
     <h1 id="title">Jogo da Forca</h1>
+    <div id="ImagemDiv">
+        <img alt="" src="" id="imagem"  />
+    </div>
     <div id="exibirPalavra"></div>
     <input type="text" id="inputA">
     <button id="entradaLetra">Tentar Letra</button><br>
     <button id="reiniciar">Nova Rodada</button>
+    <h3>Letras Erradas</h3>
+    <h2 id="letrasErradas"></h2>
     
     <script type="text/javascript">
 
         const palavras = ["caixa", "carro", "escada", "lamparina","monitor"];
 
         let letraErrada;
-        let palavraRodada
-        let exibirPalavra
+        let palavraRodada;
+        let exibirPalavra;
+        let qtdErros;
 
         function IniciarPartida(){
-            palavraRodada = palavras[Math.floor(Math.random()* palavras.length)]
+
+            document.getElementById("letrasErradas").innerHTML = "";
+
+
+            palavraRodada = palavras[Math.floor(Math.random()* (palavras.length))];
             console.log(palavraRodada);
 
-            exibirPalavra = Array(palavras.length).fill("_");
+            exibirPalavra = Array(palavraRodada.length).fill("_");
             console.log(exibirPalavra);
 
-            atualizar();
+            document.getElementById("imagem").src= 'Imagens Forca/forca.png'
+
+            Atualizar();
         }
+
+        function Atualizar(){
+            document.getElementById("exibirPalavra").innerText = exibirPalavra.join(' ');
+        }
+
+        function VerificarVitoria(){
+            return !exibirPalavra.includes("_");
+        }
+
+        function MostrarMensagemVitoria(){
+            alert("Parabéns! Você ganhou!");
+        }
+
 
         
-        function atualizar(){
-            document.getElementById("exibirPalavra").innerText = (exibirPalavra).join(' ');
-        }
 
-        function chutePalavra(){
-            const entradaLetra = document.getElementById("inputA")
-            const letra = entradaLetra.value.ToLowerCase;
-
+        document.getElementById("entradaLetra").addEventListener("click", function(){
+            const entradaLetra = document.getElementById("inputA");
+            const letra = entradaLetra.value.toLowerCase();
 
             if(palavraRodada.includes(letra)){
-                for(let i = 0;  i< palavraRodada; i++){
-                    if(palavraRodada[i] === letra){
+                for(let i = 0;  i < palavraRodada.length; i++){
+                    if(palavraRodada[i] == letra){
                         exibirPalavra[i] = letra;
                     }
+                }           
+                Atualizar();
+                if(VerificarVitoria()){
+                    MostrarMensagemVitoria();
                 }
+            }
+            else{
+                document.getElementById("letrasErradas").innerHTML = letra + " ,"
+                qtdErros =+ qtdErros;
+            }
+
+            if(qtdErros == 6){
+                alert("você Perdeu!")
+            }
+            
+        }); 
+
+
+
+        function Imagens(){
+            if(qtdErros == 1){
+                document.getElementById("imagens").src='cabeca.png';
             }
         }
 
-        document.getElementById("entradaLetra").addEventListener("click", function(){
-            chutePalavra();
-        } )
 
+        document.getElementById("reiniciar").addEventListener("click", function(){
+            IniciarPartida();
+        })
 
-        window.load = IniciarPartida();
+        window.onload = IniciarPartida;
     </script>
 </body>
 </html>
