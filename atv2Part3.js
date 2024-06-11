@@ -124,29 +124,6 @@
         }); 
 
 
-        function Imagem(){
-            if(qtdErros == 1){
-                document.getElementById("imagem").src= 'Imagens Forca/forca2.jpeg'
-            }
-            else if(qtdErros == 2){
-                document.getElementById("imagem").src= 'Imagens Forca/forca3.jpeg'
-            }
-            else if(qtdErros == 3){
-                document.getElementById("imagem").src= 'Imagens Forca/forca4.jpeg'
-            }
-            else if(qtdErros == 4){
-                document.getElementById("imagem").src= 'Imagens Forca/forca5.jpeg'
-            }
-            else if(qtdErros == 5){
-                document.getElementById("imagem").src= 'Imagens Forca/forca6.jpeg'
-            }
-            else if(qtdErros == 6){
-                document.getElementById("imagem").src= 'Imagens Forca/forca7.jpeg'
-            }
-            
-        }
-
-
         document.getElementById("reiniciar").addEventListener("click", function(){
             IniciarPartida();
         })
