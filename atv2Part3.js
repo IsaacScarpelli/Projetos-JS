@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +50,7 @@
         let letraErrada;
         let palavraRodada;
         let exibirPalavra;
-        let qtdErros;
+        let qtdErros = 0;
 
         function IniciarPartida(){
 
@@ -62,7 +63,7 @@
             exibirPalavra = Array(palavraRodada.length).fill("_");
             console.log(exibirPalavra);
 
-            document.getElementById("imagem").src= 'Imagens Forca/forca.png'
+            document.getElementById("imagem").src= 'Imagens Forca/forca1.jpeg'
 
             Atualizar();
         }
@@ -78,9 +79,7 @@
         function MostrarMensagemVitoria(){
             alert("Parabéns! Você ganhou!");
         }
-
-
-        
+ 
 
         document.getElementById("entradaLetra").addEventListener("click", function(){
             const entradaLetra = document.getElementById("inputA");
@@ -98,22 +97,53 @@
                 }
             }
             else{
-                document.getElementById("letrasErradas").innerHTML = letra + " ,"
-                qtdErros =+ qtdErros;
+                document.getElementById("letrasErradas").innerHTML += letra + " ,"
+                qtdErros = qtdErros + 1;
             }
 
-            if(qtdErros == 6){
+            if(qtdErros == 1){
+                document.getElementById("imagem").src= 'Imagens Forca/forca2.jpeg'
+            }
+            else if(qtdErros == 2){
+                document.getElementById("imagem").src= 'Imagens Forca/forca3.jpeg'
+            }
+            else if(qtdErros == 3){
+                document.getElementById("imagem").src= 'Imagens Forca/forca4.jpeg'
+            }
+            else if(qtdErros == 4){
+                document.getElementById("imagem").src= 'Imagens Forca/forca5.jpeg'
+            }
+            else if(qtdErros == 5){
+                document.getElementById("imagem").src= 'Imagens Forca/forca6.jpeg'
+            }
+            else if(qtdErros == 6){
+                document.getElementById("imagem").src= 'Imagens Forca/forca7.jpeg'
                 alert("você Perdeu!")
             }
             
         }); 
 
 
-
-        function Imagens(){
+        function Imagem(){
             if(qtdErros == 1){
-                document.getElementById("imagens").src='cabeca.png';
+                document.getElementById("imagem").src= 'Imagens Forca/forca2.jpeg'
             }
+            else if(qtdErros == 2){
+                document.getElementById("imagem").src= 'Imagens Forca/forca3.jpeg'
+            }
+            else if(qtdErros == 3){
+                document.getElementById("imagem").src= 'Imagens Forca/forca4.jpeg'
+            }
+            else if(qtdErros == 4){
+                document.getElementById("imagem").src= 'Imagens Forca/forca5.jpeg'
+            }
+            else if(qtdErros == 5){
+                document.getElementById("imagem").src= 'Imagens Forca/forca6.jpeg'
+            }
+            else if(qtdErros == 6){
+                document.getElementById("imagem").src= 'Imagens Forca/forca7.jpeg'
+            }
+            
         }
 
 
