@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,7 @@
 
         let num = Math.floor(Math.random() * 20)
 
-        let url = "https://api.thecatapi.com/v1/images/search?limit=20&breed_ids=beng&api_key=live_ke8qOyFByqYf8RoSQu4hH8CaDfLZQuzyjaJ6MMzhPPl1fKp6HcCKPNEoLaspqQdC";
+        let url = "https://api.thecatapi.com/v1/images/search?limit=20&has_breeds=true&order=RANDOM&api_key=live_ke8qOyFByqYf8RoSQu4hH8CaDfLZQuzyjaJ6MMzhPPl1fKp6HcCKPNEoLaspqQdC";
         data = async () => (await fetch(url)).json();
 
         btt = document.getElementById("carregar");
