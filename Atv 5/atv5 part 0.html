@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //classes
+
+        class Dispositivo{
+            
+            constructor(modelo,categoria,serial){
+                this.modelo = modelo;
+                this.categoria = categoria;
+                this.disponivel = true;
+                this.serial = serial;
+            }
+
+            emprestar(){
+                if(disponivel == true){
+                    disponivel = false;
+                    return true;
+                }
+                else{
+                    return false;
+                }                
+            }
+
+            devolver(){
+                disponivel = true;
+            }
+        }
+
+        class CentroDeEmprestimos{
+            
+            constructor(inventario){
+                this.inventario = inventario;
+            }
+
+            adicionarDispositivo(dispositivo){
+                inventario.push = new Dispositivo();
+            }
+
+            verificarDispositivo(verificarSerial){
+                try{
+                if(inventario.serial.lentgh == verificarSerial){
+                    return true;
+                }
+            }
+            catch{
+                alert("Serial não encontrado !");
+            }
+            }
+
+            emprestarDispositivo(verificarSerial){
+                if(verificarDispositivo(verificarSerial) == true ){
+                    emprestar()
+                }
+            }
+        }
+    </script>
+</body>
+</html>
