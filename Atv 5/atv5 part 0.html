@@ -13,7 +13,8 @@
 
         class Dispositivo{
             
-            constructor(modelo,categoria,serial){
+        
+            constructor(modelo,categoria, serial){
                 this.modelo = modelo;
                 this.categoria = categoria;
                 this.disponivel = true;
@@ -21,47 +22,90 @@
             }
 
             emprestar(){
-                if(disponivel == true){
-                    disponivel = false;
-                    return true;
+                if(this.disponivel === true){
+                    this.disponivel = false;              
                 }
-                else{
-                    return false;
+                else if(this.disponivel === false){
+                    return "Não foi possível realizar o Empréstimo";
                 }                
             }
 
             devolver(){
-                disponivel = true;
+                console.log("Dispositivo devolvido ao estoque!");
+                this.disponivel = true;
             }
         }
 
         class CentroDeEmprestimos{
             
-            constructor(inventario){
-                this.inventario = inventario;
+            constructor(){
+                this.inventario = [];
             }
 
             adicionarDispositivo(dispositivo){
-                inventario.push = new Dispositivo();
+                this.inventario.push = new Dispositivo();
             }
 
             verificarDispositivo(verificarSerial){
-                try{
-                if(inventario.serial.lentgh == verificarSerial){
-                    return true;
+                for(let i; i < this.inventario.length;i++){
+                    if(this.inventario[i].serial === verificarSerial){
+                        console.log("Serial de Dispositivo Válido");
+                        return true;
+                    }
+                    else if(this.inventario[i].serial != verificarSerial){
+                        console.log("Serial de Dispositivo não encontrado");
+
+                        return false;
+                    }
                 }
             }
-            catch{
-                alert("Serial não encontrado !");
-            }
-            }
+            
 
             emprestarDispositivo(verificarSerial){
-                if(verificarDispositivo(verificarSerial) == true ){
-                    emprestar()
+                for(let i; i < this.inventario.length; i++){
+                    if(this.inventario[i].serial === verificarSerial){
+                        if(this.inventario[i].emprestar()){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            devolverDispositivos(verificarSerial){
+                for(let i; i < this.inventario.length; i++){
+                    if(this.inventario[i].serial === verificarSerial){
+                        if(this.inventario[i].devolver()){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
                 }
             }
         }
+
+        let item = new Dispositivo("g45","Headseat",1);
+        let item2 = new Dispositivo("cobra","mouse",2);
+
+        let estoque = new CentroDeEmprestimos();
+        estoque.adicionarDispositivo(item);
+        estoque.adicionarDispositivo(item2);
+
+        console.log(estoque);
+
+        if(estoque.verificarDispositivo(1) === true){
+            estoque.emprestarDispositivo(1);
+        }
+
+        console.log(estoque);
+
+
+
+        
     </script>
 </body>
 </html>
