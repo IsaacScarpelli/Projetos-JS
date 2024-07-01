@@ -9,87 +9,72 @@
 <body>
     
     <script>
-        //classes
-
-        class Dispositivo{
-            
-        
-            constructor(modelo,categoria, serial){
+        // Classes
+        class Dispositivo {
+            constructor(modelo, categoria, serial) {
                 this.modelo = modelo;
                 this.categoria = categoria;
                 this.disponivel = true;
                 this.serial = serial;
             }
 
-            emprestar(){
-                if(this.disponivel === true){
-                    this.disponivel = false;              
+            emprestar() {
+                if (this.disponivel === true) {
+                    this.disponivel = false;
+                    return true; // Adicionado para indicar sucesso
+                } else {
+                    return false; // Alterado para indicar falha
                 }
-                else if(this.disponivel === false){
-                    return "Não foi possível realizar o Empréstimo";
-                }                
             }
 
-            devolver(){
+            devolver() {
                 console.log("Dispositivo devolvido ao estoque!");
                 this.disponivel = true;
             }
         }
 
-        class CentroDeEmprestimos{
-            
-            constructor(){
+        class CentroDeEmprestimos {
+            constructor() {
                 this.inventario = [];
             }
 
-            adicionarDispositivo(dispositivo){
-                this.inventario.push = new Dispositivo();
+            adicionarDispositivo(dispositivo) {
+                this.inventario.push(dispositivo);
             }
 
-            verificarDispositivo(verificarSerial){
-                for(let i; i < this.inventario.length;i++){
-                    if(this.inventario[i].serial === verificarSerial){
+            verificarDispositivo(verificarSerial) {
+                for (let i = 0; i < this.inventario.length; i++) {
+                    if (this.inventario[i].serial === verificarSerial) {
                         console.log("Serial de Dispositivo Válido");
                         return true;
                     }
-                    else if(this.inventario[i].serial != verificarSerial){
-                        console.log("Serial de Dispositivo não encontrado");
-
-                        return false;
-                    }
                 }
-            }
-            
-
-            emprestarDispositivo(verificarSerial){
-                for(let i; i < this.inventario.length; i++){
-                    if(this.inventario[i].serial === verificarSerial){
-                        if(this.inventario[i].emprestar()){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                }
+                console.log("Serial de Dispositivo não encontrado");
+                return false;
             }
 
-            devolverDispositivos(verificarSerial){
-                for(let i; i < this.inventario.length; i++){
-                    if(this.inventario[i].serial === verificarSerial){
-                        if(this.inventario[i].devolver()){
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
+            emprestarDispositivo(verificarSerial) {
+                for (let i = 0; i < this.inventario.length; i++) {
+                    if (this.inventario[i].serial === verificarSerial) {
+                        return this.inventario[i].emprestar();
                     }
                 }
+                return false;
+            }
+
+            devolverDispositivos(verificarSerial) {
+                for (let i = 0; i < this.inventario.length; i++) {
+                    if (this.inventario[i].serial === verificarSerial) {
+                        this.inventario[i].devolver();
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
-        let item = new Dispositivo("g45","Headseat",1);
-        let item2 = new Dispositivo("cobra","mouse",2);
+        let item = new Dispositivo("g45", "Headset", 1);
+        let item2 = new Dispositivo("cobra", "mouse", 2);
 
         let estoque = new CentroDeEmprestimos();
         estoque.adicionarDispositivo(item);
@@ -97,15 +82,11 @@
 
         console.log(estoque);
 
-        if(estoque.verificarDispositivo(1) === true){
+        if (estoque.verificarDispositivo(1) === true) {
             estoque.emprestarDispositivo(1);
         }
 
         console.log(estoque);
-
-
-
-        
     </script>
 </body>
 </html>
