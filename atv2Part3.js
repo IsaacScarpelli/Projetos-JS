@@ -1,124 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<body>
-    
-
-    <h1>Estoque</h1>
-    <div id="itens">
-
-    </div>
-
-
-
-
-
-    <script>
-        // Classes
-        class Dispositivo {
-            constructor(modelo, categoria, serial) {
-                this.modelo = modelo;
-                this.categoria = categoria;
-                this.disponivel = true;
-                this.serial = serial;
-            }
-
-            emprestar() {
-                if (this.disponivel === true) {
-                    this.disponivel = false;
-                    return true; // Adicionado para indicar sucesso
-                } else {
-                    return false; // Alterado para indicar falha
-                }
-            }
-
-            devolver() {
-                console.log("Dispositivo devolvido ao estoque!");
-                this.disponivel = true;
-            }
-        }
-
-        class CentroDeEmprestimos {
-            constructor() {
-                this.inventario = [];
-            }
-
-            adicionarDispositivo(dispositivo) {
-                this.inventario.push(dispositivo);
-            }
-
-            verificarDispositivo(verificarSerial) {
-                for (let i = 0; i < this.inventario.length; i++) {
-                    if (this.inventario[i].serial === verificarSerial) {
-                        console.log("Serial de Dispositivo Válido");
-                        return true;
-                    }
-                }
-                console.log("Serial de Dispositivo não encontrado");
-                return false;
-            }
-
-            emprestarDispositivo(verificarSerial) {
-                for (let i = 0; i < this.inventario.length; i++) {
-                    if (this.inventario[i].serial === verificarSerial) {
-                        return this.inventario[i].emprestar();
-                    }
-                }
-                return "Não foi possível emprestra esse item!";
-            }
-
-            devolverDispositivos(verificarSerial) {
-                for (let i = 0; i < this.inventario.length; i++) {
-                    if (this.inventario[i].serial === verificarSerial) {
-                        this.inventario[i].devolver();
-                        return true;
-                    }
-                }
-                return "Não foi possível devolver  esse item!";
-            }
-        }
-
-        
-
-
-
-        let item = new Dispositivo("g45", "Headset", 1);
-        let item2 = new Dispositivo("cobra", "mouse", 2);
-
-        let estoque = new CentroDeEmprestimos();
-        estoque.adicionarDispositivo(item);
-        estoque.adicionarDispositivo(item2);
-
-        console.log(estoque);
-
-        if (estoque.verificarDispositivo(1) === true) {
-            estoque.emprestarDispositivo(1);
-        }
-
-        console.log(estoque);
-
-        function teste(){
-            let novoElemento = document.createElement("p");
-            let textoModelo = document.createTextNode(estoque.inventario[0].Dispositivo.modelo );
-            let textoCategoria = document.createTextNode(estoque.inventario[0].Dispositivo.categoria );
-            let textoDisponivel = document.createTextNode(estoque.inventario[0].Dispositivo.disponivel );
-            let textoSerial = document.createTextNode(estoque.inventario[0].Dispositivo.serial );
-
-            novoElemento.appendChild(textoModelo,textoCategoria,textoDisponivel,textoSerial);
-            let p = document.querySelector("#itens");
-            let pai = p.parentNode;
-            pai.appendChild(novoElemento);
+    <style>
+       
+        body{
+            text-align: center;
             
         }
-        teste();
-
+        #exibirPalavra{
+            margin-bottom: 40px;
+            font-size: 70px;
+        }
         
+        #reiniciar{
+            margin: 20px;
+        }
+        #imagem{
+            z-index: auto;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1 id="title">Jogo da Forca</h1>
+    <div id="ImagemDiv">
+        <img alt="" src="" id="imagem"  />
+    </div>
+    <div id="exibirPalavra"></div>
+    <input type="text" id="inputA">
+    <button id="entradaLetra">Tentar Letra</button><br>
+    <button id="reiniciar">Nova Rodada</button>
+    <h3>Letras Erradas</h3>
+    <h2 id="letrasErradas"></h2>
+    
+    <script type="text/javascript">
+        const palavras = ["caixa", "carro", "escada", "lamparina","monitor"];
+        let letraErrada;
+        let palavraRodada;
+        let exibirPalavra;
+        let qtdErros = 0;
+        function IniciarPartida(){
+            document.getElementById("letrasErradas").innerHTML = "";
+            palavraRodada = palavras[Math.floor(Math.random()* (palavras.length))];
+            console.log(palavraRodada);
+            exibirPalavra = Array(palavraRodada.length).fill("_");
+            console.log(exibirPalavra);
+            document.getElementById("imagem").src= 'Imagens Forca/forca1.jpeg'
+            Atualizar();
+        }
+        function Atualizar(){
+            document.getElementById("exibirPalavra").innerText = exibirPalavra.join(' ');
+        }
+        function VerificarVitoria(){
+            return !exibirPalavra.includes("_");
+        }
+        function MostrarMensagemVitoria(){
+            alert("Parabéns! Você ganhou!");
+        }
+ 
+        document.getElementById("entradaLetra").addEventListener("click", function(){
+            const entradaLetra = document.getElementById("inputA");
+            const letra = entradaLetra.value.toLowerCase();
+            if(palavraRodada.includes(letra)){
+                for(let i = 0;  i < palavraRodada.length; i++){
+                    if(palavraRodada[i] == letra){
+                        exibirPalavra[i] = letra;
+                    }
+                }           
+                Atualizar();
+                if(VerificarVitoria()){
+                    MostrarMensagemVitoria();
+                }
+            }
+            else{
+                document.getElementById("letrasErradas").innerHTML += letra + " ,"
+                qtdErros = qtdErros + 1;
+            }
+            if(qtdErros == 1){
+                document.getElementById("imagem").src= 'Imagens Forca/forca2.jpeg'
+            }
+            else if(qtdErros == 2){
+                document.getElementById("imagem").src= 'Imagens Forca/forca3.jpeg'
+            }
+            else if(qtdErros == 3){
+                document.getElementById("imagem").src= 'Imagens Forca/forca4.jpeg'
+            }
+            else if(qtdErros == 4){
+                document.getElementById("imagem").src= 'Imagens Forca/forca5.jpeg'
+            }
+            else if(qtdErros == 5){
+                document.getElementById("imagem").src= 'Imagens Forca/forca6.jpeg'
+            }
+            else if(qtdErros == 6){
+                document.getElementById("imagem").src= 'Imagens Forca/forca7.jpeg'
+                alert("você Perdeu!")
+            }
+            
+        }); 
+
+
+        function Imagem(){
+            if(qtdErros == 1){
+                document.getElementById("imagem").src= 'Imagens Forca/forca2.jpeg'
+            }
+            else if(qtdErros == 2){
+                document.getElementById("imagem").src= 'Imagens Forca/forca3.jpeg'
+            }
+            else if(qtdErros == 3){
+                document.getElementById("imagem").src= 'Imagens Forca/forca4.jpeg'
+            }
+            else if(qtdErros == 4){
+                document.getElementById("imagem").src= 'Imagens Forca/forca5.jpeg'
+            }
+            else if(qtdErros == 5){
+                document.getElementById("imagem").src= 'Imagens Forca/forca6.jpeg'
+            }
+            else if(qtdErros == 6){
+                document.getElementById("imagem").src= 'Imagens Forca/forca7.jpeg'
+            }
+
+        }
+
+
+        document.getElementById("reiniciar").addEventListener("click", function(){
+            IniciarPartida();
+        })
+        window.onload = IniciarPartida;
     </script>
 </body>
 </html>
