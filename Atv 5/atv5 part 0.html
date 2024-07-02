@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,16 @@
 </head>
 <body>
     
+
+    <h1>Estoque</h1>
+    <div id="itens">
+
+    </div>
+
+
+
+
+
     <script>
         // Classes
         class Dispositivo {
@@ -59,7 +70,7 @@
                         return this.inventario[i].emprestar();
                     }
                 }
-                return false;
+                return "Não foi possível emprestra esse item!";
             }
 
             devolverDispositivos(verificarSerial) {
@@ -69,9 +80,13 @@
                         return true;
                     }
                 }
-                return false;
+                return "Não foi possível devolver  esse item!";
             }
         }
+
+        
+
+
 
         let item = new Dispositivo("g45", "Headset", 1);
         let item2 = new Dispositivo("cobra", "mouse", 2);
@@ -87,6 +102,23 @@
         }
 
         console.log(estoque);
+
+        function teste(){
+            let novoElemento = document.createElement("p");
+            let textoModelo = document.createTextNode(estoque.inventario[0].Dispositivo.modelo );
+            let textoCategoria = document.createTextNode(estoque.inventario[0].Dispositivo.categoria );
+            let textoDisponivel = document.createTextNode(estoque.inventario[0].Dispositivo.disponivel );
+            let textoSerial = document.createTextNode(estoque.inventario[0].Dispositivo.serial );
+
+            novoElemento.appendChild(textoModelo,textoCategoria,textoDisponivel,textoSerial);
+            let p = document.querySelector("#itens");
+            let pai = p.parentNode;
+            pai.appendChild(novoElemento);
+            
+        }
+        teste();
+
+        
     </script>
 </body>
 </html>
