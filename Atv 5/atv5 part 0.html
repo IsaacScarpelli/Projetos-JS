@@ -11,7 +11,7 @@
     
 
     <h1>Estoque</h1>
-    <div id="itens">
+    <div id="pai">
 
     </div>
 
@@ -103,20 +103,40 @@
 
         console.log(estoque);
 
-        function teste(){
-            let novoElemento = document.createElement("p");
-            let textoModelo = document.createTextNode(estoque.inventario[0].Dispositivo.modelo );
-            let textoCategoria = document.createTextNode(estoque.inventario[0].Dispositivo.categoria );
-            let textoDisponivel = document.createTextNode(estoque.inventario[0].Dispositivo.disponivel );
-            let textoSerial = document.createTextNode(estoque.inventario[0].Dispositivo.serial );
 
-            novoElemento.appendChild(textoModelo,textoCategoria,textoDisponivel,textoSerial);
-            let p = document.querySelector("#itens");
-            let pai = p.parentNode;
-            pai.appendChild(novoElemento);
-            
-        }
-        teste();
+        function teste() {  
+    let pai = document.querySelector("#pai");
+
+    for (let i = 0; i < estoque.inventario.length; i++) {
+        let lista = document.createElement("ul");
+
+        let novoItemModelo = document.createElement("li");
+        let novoItemCategoria = document.createElement("li");
+        let novoItemSerial = document.createElement("li");
+        let novoItemDisponivel = document.createElement("li");
+
+        novoItemModelo.textContent = "Modelo: " + estoque.inventario[i].modelo;
+        novoItemCategoria.textContent = "Categoria: " + estoque.inventario[i].categoria;
+        novoItemSerial.textContent = "Serial: " + estoque.inventario[i].serial;
+        novoItemDisponivel.textContent = "Disponível: " + (estoque.inventario[i].disponivel ? "Sim" : "Não");
+
+        lista.appendChild(novoItemModelo); 
+        lista.appendChild(novoItemCategoria);
+        lista.appendChild(novoItemSerial);
+        lista.appendChild(novoItemDisponivel);
+
+        pai.appendChild(lista); 
+    }
+}
+
+teste();
+
+
+    
+
+
+
+
 
         
     </script>
