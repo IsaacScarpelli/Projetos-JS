@@ -6,15 +6,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #boxEstoque{
+            border-style: solid;
+            width: 600px;
+           margin-bottom: 40px;
+        }
+        ul{
+            display: inline-block;
+            border-style: groove;
+            width: 25%;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin: 50px;
+            
+        }
+        li{
+            list-style-type: none;
+        }
+        body{
+            font-size: large;
+        }
+        button{
+            padding: 7px;
+            margin: 10px;
+        }
+        input{
+            margin-left: 50px;
+        }
+    </style>
 </head>
 <body>
     
 
     <h1>Estoque</h1>
     <div id="pai">
+        <div id="boxEstoque"></div>
 
+        <div id="botoes">
+
+            <button>Emprestra Dispositivo</button>
+            <button>Devolver Dispositivo</button>
+
+            <input type="number" name="Serial" placeholder="Serial">
+        </div>
     </div>
+    
 
+    
 
 
 
@@ -89,11 +128,19 @@
 
 
         let item = new Dispositivo("g45", "Headset", 1);
-        let item2 = new Dispositivo("cobra", "mouse", 2);
+        let item2 = new Dispositivo("Cobra", "Mouse", 2);
+        let item3 = new Dispositivo("Ajazz 199", "Mouse", 3);
+        let item4 = new Dispositivo("Kumara", "Teclado", 4);
+        let item5 = new Dispositivo("Ak68", "Teclado", 5);
+        let item6 = new Dispositivo("Kz Zst", "Fone", 6);
 
         let estoque = new CentroDeEmprestimos();
         estoque.adicionarDispositivo(item);
         estoque.adicionarDispositivo(item2);
+        estoque.adicionarDispositivo(item3);
+        estoque.adicionarDispositivo(item4);
+        estoque.adicionarDispositivo(item5);
+        estoque.adicionarDispositivo(item6);
 
         console.log(estoque);
 
@@ -105,7 +152,8 @@
 
 
         function teste() {  
-    let pai = document.querySelector("#pai");
+    let pai = document.querySelector("#boxEstoque");
+    
 
     for (let i = 0; i < estoque.inventario.length; i++) {
         let lista = document.createElement("ul");
