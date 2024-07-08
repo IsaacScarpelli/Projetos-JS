@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,56 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #boxEstoque{
+        #boxEstoque {
             border-style: solid;
             width: 600px;
-           margin-bottom: 40px;
+            margin-bottom: 40px;
         }
-        ul{
+        ul {
             display: inline-block;
             border-style: groove;
             width: 25%;
             padding-left: 15px;
             padding-right: 15px;
             margin: 50px;
-            
         }
-        li{
+        li {
             list-style-type: none;
         }
-        body{
+        body {
             font-size: large;
         }
-        button{
+        button {
             padding: 7px;
             margin: 10px;
         }
-        input{
+        input {
             margin-left: 50px;
         }
     </style>
 </head>
 <body>
     
-
     <h1>Estoque</h1>
     <div id="pai">
         <div id="boxEstoque"></div>
 
         <div id="botoes">
-
-            <button>Emprestra Dispositivo</button>
-            <button>Devolver Dispositivo</button>
-
-            <input type="number" name="Serial" placeholder="Serial">
+            <button id="bttEmprestar">Emprestar Dispositivo</button>
+            <button id="bttDevolver">Devolver Dispositivo</button>
+            <input type="number" placeholder="Serial" id="serial">
         </div>
     </div>
-    
-
-    
-
-
-
 
     <script>
         // Classes
@@ -71,9 +60,9 @@
             emprestar() {
                 if (this.disponivel === true) {
                     this.disponivel = false;
-                    return true; // Adicionado para indicar sucesso
+                    return true; 
                 } else {
-                    return false; // Alterado para indicar falha
+                    return false; 
                 }
             }
 
@@ -109,24 +98,21 @@
                         return this.inventario[i].emprestar();
                     }
                 }
-                return "Não foi possível emprestra esse item!";
+                return false;
             }
 
-            devolverDispositivos(verificarSerial) {
+            devolverDispositivo(verificarSerial) {
                 for (let i = 0; i < this.inventario.length; i++) {
                     if (this.inventario[i].serial === verificarSerial) {
                         this.inventario[i].devolver();
                         return true;
                     }
                 }
-                return "Não foi possível devolver  esse item!";
+                return false;
             }
         }
 
-        
-
-
-
+        // Inserção dos itens no estoque
         let item = new Dispositivo("g45", "Headset", 1);
         let item2 = new Dispositivo("Cobra", "Mouse", 2);
         let item3 = new Dispositivo("Ajazz 199", "Mouse", 3);
@@ -144,49 +130,70 @@
 
         console.log(estoque);
 
-        if (estoque.verificarDispositivo(1) === true) {
-            estoque.emprestarDispositivo(1);
+        // Criação da parte visual no html
+        function Visual() {
+            let pai = document.querySelector("#boxEstoque");
+        
+            for (let i = 0; i < estoque.inventario.length; i++) {
+                let lista = document.createElement("ul");
+
+                let novoItemModelo = document.createElement("li");
+                let novoItemCategoria = document.createElement("li");
+                let novoItemSerial = document.createElement("li");
+                let novoItemDisponivel = document.createElement("li");
+
+                novoItemModelo.textContent = "Modelo: " + estoque.inventario[i].modelo;
+                novoItemCategoria.textContent = "Categoria: " + estoque.inventario[i].categoria;
+                novoItemSerial.textContent = "Serial: " + estoque.inventario[i].serial;
+                novoItemDisponivel.textContent = "Disponível: " + (estoque.inventario[i].disponivel ? "Sim" : "Não");
+
+                lista.appendChild(novoItemModelo);
+                lista.appendChild(novoItemCategoria);
+                lista.appendChild(novoItemSerial);
+                lista.appendChild(novoItemDisponivel);
+
+                pai.appendChild(lista);
+            }
         }
 
-        console.log(estoque);
-
-
-        function teste() {  
-    let pai = document.querySelector("#boxEstoque");
-    
-
-    for (let i = 0; i < estoque.inventario.length; i++) {
-        let lista = document.createElement("ul");
-
-        let novoItemModelo = document.createElement("li");
-        let novoItemCategoria = document.createElement("li");
-        let novoItemSerial = document.createElement("li");
-        let novoItemDisponivel = document.createElement("li");
-
-        novoItemModelo.textContent = "Modelo: " + estoque.inventario[i].modelo;
-        novoItemCategoria.textContent = "Categoria: " + estoque.inventario[i].categoria;
-        novoItemSerial.textContent = "Serial: " + estoque.inventario[i].serial;
-        novoItemDisponivel.textContent = "Disponível: " + (estoque.inventario[i].disponivel ? "Sim" : "Não");
-
-        lista.appendChild(novoItemModelo); 
-        lista.appendChild(novoItemCategoria);
-        lista.appendChild(novoItemSerial);
-        lista.appendChild(novoItemDisponivel);
-
-        pai.appendChild(lista); 
-    }
-}
-
-teste();
-
-
-    
-
-
-
-
-
+        function atualizarVisual() {
+            let pai = document.querySelector("#boxEstoque");
         
+            for (let i = 0; i < estoque.inventario.length; i++) {
+                let lista = pai.children[i]; 
+                lista.children[0].textContent = "Modelo: " + estoque.inventario[i].modelo;
+                lista.children[1].textContent = "Categoria: " + estoque.inventario[i].categoria;
+                lista.children[2].textContent = "Serial: " + estoque.inventario[i].serial;
+                lista.children[3].textContent = "Disponível: " + (estoque.inventario[i].disponivel ? "Sim" : "Não");
+            }
+        }
+
+        Visual();
+
+        let bttEmprestar = document.getElementById("bttEmprestar");
+        let bttDevolver = document.getElementById("bttDevolver");
+
+        bttEmprestar.onclick = () => {
+            let serialInserido = document.getElementById("serial").value;
+            let emprestado = estoque.emprestarDispositivo(parseInt(serialInserido));
+            if (emprestado === true) {
+                console.log("Dispositivo emprestado com sucesso!");
+                atualizarVisual();
+            } else {
+                console.log("Não foi possível emprestar esse dispositivo!");
+            }
+        }
+
+        bttDevolver.onclick = () => {
+            let serialInserido = document.getElementById("serial").value;
+            let devolvido = estoque.devolverDispositivo(parseInt(serialInserido));
+            if (devolvido === true) {
+                console.log("Dispositivo devolvido com sucesso!");
+                atualizarVisual();
+            } else {
+                console.log("Não foi possível devolver esse dispositivo!");
+            }
+        }
     </script>
 </body>
 </html>
