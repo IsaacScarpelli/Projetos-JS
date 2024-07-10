@@ -7,44 +7,41 @@
 </head>
 <body>
     <h2>Insira seu email</h2>
-<input type="text" id="entradaEmail">
-<button id="demo">Aperte Aqui</button>
+    <input type="text" id="entradaEmail">
+    <button id="demo">Aperte Aqui</button>
 
     <script type="text/javascript">
-
-        const emailsRegistrados = ["isaacsouzajj@gmail.com","zaczacjj@gmail.com"]
+        const emailsRegistrados = ["isaacsouzajj@gmail.com", "zaczacjj@gmail.com"];
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
 
-        async function checarEmailBancoDeDados(){
+        function ValidaEmail(email) {
+            return emailRegex.test(email);
+        }
+
+        async function checarEmailBancoDeDados(email) {
             alert(`Verificando email: ${email}`);
 
-            await new Promise(resolve=>setTimeout(resolve,2500));
+            await new Promise(resolve => setTimeout(resolve, 2500));
 
-            const emailsRegistrados = ["isaacsouzajj@gmail.com","zaczacjj@gmail.com"]
             return emailsRegistrados.includes(email);
-
         }
 
         let btt = document.getElementById("demo");
 
-        btt.onclick = async() =>{
-
-            let email = String(document.getElementById("entradaEmail").value);
-            if(ValidaEmail(email)){
+        btt.onclick = async () => {
+            let email = document.getElementById("entradaEmail").value.trim(); 
+            if (ValidaEmail(email)) {
                 const estaRegistrando = await checarEmailBancoDeDados(email);
-                if(estaRegistrando){
-                    alert("email já está registrado");
-                }
-                else if(estaRegistrando){
-                    alert("email não está registrado");
-                }
-                else{
-                    alert("Formato de email inválido ");
 
+                if (estaRegistrando) {
+                    alert("Email já está registrado.");
+                } else {
+                    alert("Email não está registrado.");
                 }
+            } else {
+                alert("Formato de email inválido.");
             }
-        }
+        };
     </script>
     
 </body>
