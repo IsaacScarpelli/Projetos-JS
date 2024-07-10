@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Insira seu email</h2>
+    <input type="text" id="entradaEmail">
+    <button id="demo">Aperte Aqui</button>
+
+    <script type="text/javascript">
+        const emailsRegistrados = ["isaacsouzajj@gmail.com", "zaczacjj@gmail.com"];
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function ValidaEmail(email) {
+            return emailRegex.test(email);
+        }
+
+        async function checarEmailBancoDeDados(email) {
+            alert(`Verificando email: ${email}`);
+
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+            return emailsRegistrados.includes(email);
+        }
+
+        let btt = document.getElementById("demo");
+
+        btt.onclick = async () => {
+            let email = document.getElementById("entradaEmail").value.trim(); 
+            if (ValidaEmail(email)) {
+                const estaRegistrando = await checarEmailBancoDeDados(email);
+
+                if (estaRegistrando) {
+                    alert("Email já está registrado.");
+                } else {
+                    alert("Email não está registrado.");
+                }
+            } else {
+                alert("Formato de email inválido.");
+            }
+        };
+    </script>
+    
+</body>
+</html>
 
