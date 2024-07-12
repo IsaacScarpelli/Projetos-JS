@@ -6,43 +6,42 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Insira seu email</h2>
-    <input type="text" id="entradaEmail">
-    <button id="demo">Aperte Aqui</button>
+    <h2>Insira as coordenadas da cidade que você deseja ver o clima</h2>
+    <input type="text" id="cidade" placeholder="latitude">
+    
 
-    <script type="text/javascript">
-        const emailsRegistrados = ["isaacsouzajj@gmail.com", "zaczacjj@gmail.com"];
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    <button id="bttMandar">Mandar Informações</button>
+    <button id="bttBusca">Fazer Busca</button>
+    <p id="teste"></p>
 
-        function ValidaEmail(email) {
-            return emailRegex.test(email);
-        }
+    <script>
+        let cidade;
+        
+        let bttMandar = document.getElementById("bttMandar");
 
-        async function checarEmailBancoDeDados(email) {
-            alert(`Verificando email: ${email}`);
-
-            await new Promise(resolve => setTimeout(resolve, 2500));
-
-            return emailsRegistrados.includes(email);
-        }
-
-        let btt = document.getElementById("demo");
-
-        btt.onclick = async () => {
-            let email = document.getElementById("entradaEmail").value.trim(); 
-            if (ValidaEmail(email)) {
-                const estaRegistrando = await checarEmailBancoDeDados(email);
-
-                if (estaRegistrando) {
-                    alert("Email já está registrado.");
-                } else {
-                    alert("Email não está registrado.");
-                }
-            } else {
-                alert("Formato de email inválido.");
-            }
+        bttMandar.onclick = () => {
+            
+            cidade = document.getElementById("cidade").value;
+            
+            
+            console.log(cidade);
+            
+            
+            const apiKey = '1b30bbfd2cf80b4555d846795a127a3d'; 
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&units=metric`; 
+            
+            // Função async para buscar dados da API
+            data = async () => (await fetch(apiUrl)).json();
+            
+            let bttBusca = document.getElementById("bttBusca");
+            bttBusca.onclick = () => {
+                data().then((res) => {
+                    console.log(res);
+                }).catch((err) => {
+                    alert(err);
+                });
+            };
         };
     </script>
-    
 </body>
 </html>
