@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle com Teclado em Tabuleiro 6x6</title>
+    <style>
+        #tabuleiro {
+            display: grid;
+            grid-template-columns: repeat(6, 50px);
+            grid-template-rows: repeat(6, 50px);
+            gap: 5px;
+        }
+        .celula {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Controle o Caractere * com as Setas</h1>
+    <div id="tabuleiro"></div>
+
+    <script>
+        const tabuleiro = document.getElementById("tabuleiro");
+        const tamanhoTabuleiro = 6;
+        let posicaoJogador = { x: 0, y: 0 }; // Início no canto superior esquerdo
+        let posicaoVitoria = {
+            x : Math.floor(Math.random() * tamanhoTabuleiro),
+            y : Math.floor(Math.random() * tamanhoTabuleiro)
+        }
+        let posicaoDerrota = {
+            x : Math.floor(Math.random() * tamanhoTabuleiro),
+            y : Math.floor(Math.random() * tamanhoTabuleiro)
+        }
+
+        if(posicaoDerrota.x === posicaoVitoria.x && posicaoDerrota.y === posicaoVitoria.y){
+            if(posicaoDerrota.x <=3){
+                posicaoDerrota.x++;
+            }
+            else{
+                posicaoDerrota.x--;
+
+            }
+
+        }
+
+        // Função para criar o tabuleiro
+        function criarTabuleiro() {
+            tabuleiro.innerHTML = ""; 
+            for (let i = 0; i < tamanhoTabuleiro; i++) {
+                for (let j = 0; j < tamanhoTabuleiro; j++) {
+                    const celula = document.createElement("div");
+                    celula.classList.add("celula");
+                    celula.dataset.x = i;
+                    celula.dataset.y = j;
+                    tabuleiro.appendChild(celula);
+
+                }
+            }
+            atualizarTabuleiro();
+        }
+
+        // Função para atualizar a posição do jogador no tabuleiro
+        function atualizarTabuleiro() {
+            // Limpa o tabuleiro
+            document.querySelectorAll(".celula").forEach(celula => celula.textContent = "");
+            // Define o caractere '*' na nova posição do jogador
+            const jogador = document.querySelector(`.celula[data-x='${posicaoJogador.x}'][data-y='${posicaoJogador.y}']`);
+            jogador.textContent = "*";
+        }
+
+        // Função para mover o jogador com as teclas de seta
+        function moverJogador(event) {
+            switch (event.key) {
+                case "ArrowUp":
+                    if (posicaoJogador.x > 0) posicaoJogador.x--;
+                    break;
+                case "ArrowDown":
+                    if (posicaoJogador.x < tamanhoTabuleiro - 1) posicaoJogador.x++;
+                    break;
+                case "ArrowLeft":
+                    if (posicaoJogador.y > 0) posicaoJogador.y--;
+                    break;
+                case "ArrowRight":
+                    if (posicaoJogador.y < tamanhoTabuleiro - 1) posicaoJogador.y++;
+                    break;
+                default:
+                    return;
+            }
+            condicaoVitoria();
+            condicaoDerrota();
+            atualizarTabuleiro();
+            
+        }
+
+        function condicaoVitoria(){
+            if(posicaoJogador.x === posicaoVitoria.x && posicaoJogador.y === posicaoVitoria.y){
+                alert("Parabéns você venceu!!")
+                reiniciarJogo();
+            }
+        }
+
+        function condicaoDerrota(){
+            if(posicaoJogador.x === posicaoDerrota.x && posicaoJogador.y === posicaoDerrota.y){
+                alert("Você perdeu! Tente Novamente!")
+                reiniciarJogo();
+            }
+        }
+
+
+
+        function reiniciarJogo(){
+            location.reload();
+        }
+
+        // Inicializa o tabuleiro
+        criarTabuleiro();
+
+        // Escuta o evento de tecla pressionada
+        document.addEventListener("keydown", moverJogador);
+    </script>
+</body>
+</html>
